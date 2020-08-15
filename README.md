@@ -1,2 +1,2 @@
-# IGIS
-IGIS is a  simple geographical information system (GIS) program.
+
+A simple geographical information system (GIS) program.
