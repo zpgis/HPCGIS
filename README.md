@@ -1,2 +1,2 @@
 # iGIS
-iGIS is a  high-performance, intelligent, open source  and cross platform (lin/win/mac) geographical information system (GIS).
+iGIS is a  simple geographical information system (GIS) program.
