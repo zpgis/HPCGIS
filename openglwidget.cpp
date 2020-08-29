@@ -44,14 +44,16 @@ void OpenGLWidget::initializeGL() {
     0.5f, -0.5f, 0.0f,    // 右下
     -0.5f, -0.5f, 0.0f,   // 左下
     // 第二个三角形
-    -0.5f, -0.5f, 0.0f,   // 左下
-    0.5f, 0.5f, 0.0f,     // 右上
+    //-0.5f, -0.5f, 0.0f,   // 左下
+    //0.5f, 0.5f, 0.0f,     // 右上
     -0.5f, 0.5f, 0.0f     // 左上
     };
     // 索引数据(注意这里是从0开始的)
     unsigned int indices[] = {
-        0, 1, 5,              // 第一个三角形
-        1, 2, 5               // 第二个三角形
+        0, 1,              // 第一个三角形
+        1, 2,               // 第二个三角形
+        2,3,
+        3,0
     };
 
     glGenVertexArrays(1, &vertex_array_object);
@@ -74,7 +76,7 @@ void OpenGLWidget::initializeGL() {
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void OpenGLWidget::resizeGL(int w, int h) {
@@ -90,8 +92,9 @@ void OpenGLWidget::paintGL() {
     shader->use();
     glBindVertexArray(vertex_array_object);
 
-    //glDrawArrays(GL_POINTS, 0, 1);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    //glDrawArrays(GL_LINES, 0, 4);
+    //glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawElements(GL_LINES, 8, GL_UNSIGNED_INT, 0);
 
     glBindVertexArray(0);
 }
