@@ -1,5 +1,5 @@
 #include "shader.h"
-
+#include "logger.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -55,7 +55,8 @@ int Shader::getShaderFromFile(const GLchar* vertexShaderPath, const GLchar* frag
 	}
 	catch (const std::ifstream::failure e)
 	{
-		std::cout << "Load Shader File Error!" << std::endl;
+		LError("Load Shader File Error!");
+		//std::cout << "Load Shader File Error!" << std::endl;
 		return -1;
 	}
 
@@ -92,7 +93,8 @@ void Shader::checkCompileErrors(GLuint shader, std::string type) {
 		glGetProgramiv(shader, GL_LINK_STATUS, &success);
 		if (!success) {
 			glGetProgramInfoLog(shader, 512, nullptr, infoLog);
-			std::cout << "ERROR::PROGRAM_LINKING_ERROR!\n" << infoLog << std::endl;
+			LError("ERROR::PROGRAM_LINKING_ERROR!");
+			//std::cout << "ERROR::PROGRAM_LINKING_ERROR!\n" << infoLog << std::endl;
 		}
 	}
 	else {
@@ -100,7 +102,9 @@ void Shader::checkCompileErrors(GLuint shader, std::string type) {
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 512, NULL, infoLog);
-			std::cout << "ERROR::SHADER::" << type << "::COMPILATION_FAILED\n" << infoLog << std::endl;
+			std::string err = "ERROR::SHADER::" + type + "::COMPILATION_FAILED\n" + infoLog;
+			LError(err);
+			//std::cout << "ERROR::SHADER::" << type << "::COMPILATION_FAILED\n" << infoLog << std::endl;
 		}
 	}
 }

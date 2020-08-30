@@ -39,6 +39,9 @@
     <Filter Include="Source Files\opengl">
       <UniqueIdentifier>{3988ea8f-ba45-4613-85f3-2a1c1a61d94c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\util">
+      <UniqueIdentifier>{ecb36cf1-545f-4e0f-be5c-7bcd7c79d7b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="igis.h">
@@ -56,6 +59,9 @@
   <ItemGroup>
     <ClInclude Include="shader.h">
       <Filter>Header Files\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="logger.h">
+      <Filter>Header Files\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

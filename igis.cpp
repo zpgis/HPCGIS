@@ -1,15 +1,26 @@
 #include "igis.h"
+#include "logger.h"
 
 #include <QIcon>
 #include <QFileDialog>
 #include <QString>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QDir>
+
 
 IGIS::IGIS(QWidget *parent)
     : QMainWindow(parent)
 {
     this->setWindowTitle("iGIS");
+
+    QString logFilePath = QDir::currentPath() + "/logs";
+    QDir dir(logFilePath);
+    if (!dir.exists()) {
+        dir.mkdir(logFilePath);
+    }
+
+    LInfo("Program start");
 
     createMenuBar();
     createActions();
