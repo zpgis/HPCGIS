@@ -1,5 +1,5 @@
 #include "openglwidget.h"
-
+#include "vertexbufferobject.h"
 #include <QDebug>
 
 
@@ -17,8 +17,11 @@ OpenGLWidget::OpenGLWidget(QWidget* parent)
 
 OpenGLWidget::~OpenGLWidget()
 {
-    glDeleteVertexArrays(1, &vertex_array_object);
-    glDeleteBuffers(1, &vertex_buffer_object);
+    //glDeleteVertexArrays(1, &vertex_array_object);
+    //glDeleteBuffers(1, &vertex_buffer_object);
+    delete vao;
+    delete vbo;
+    delete ebo;
 }
 
 /**********************************************/
@@ -56,26 +59,17 @@ void OpenGLWidget::initializeGL() {
         3,0
     };
 
-    glGenVertexArrays(1, &vertex_array_object);
-    glBindVertexArray(vertex_array_object);
+    //// 将顶点数据绑定至当前默认的缓冲中
+    vbo = new VertexBufferObject(sizeof(triangle), triangle,  GL_STATIC_DRAW);
 
-    glGenBuffers(1, &vertex_buffer_object);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object);
-    // 将顶点数据绑定至当前默认的缓冲中
-    glBufferData(GL_ARRAY_BUFFER, sizeof(triangle), triangle, GL_STATIC_DRAW);
+    vao = new VertexArrayObject();
+    vao->specifyVertexAttribute();
 
-    glGenBuffers(1, &element_buffer_object);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, element_buffer_object);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
-    glEnableVertexAttribArray(0);
+    ebo = new ElementBufferObject(sizeof(indices), indices, GL_STATIC_DRAW);
 
     // 解绑VAO和VBO
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+    vao->unBind();
+    vbo->unBind();
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
@@ -90,11 +84,9 @@ void OpenGLWidget::paintGL() {
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     shader->use();
-    glBindVertexArray(vertex_array_object);
+    vao->bind();
 
-    //glDrawArrays(GL_LINES, 0, 4);
-    //glDrawArrays(GL_TRIANGLES, 0, 6);
-    glDrawElements(GL_LINES, 8, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_LINES, 8, GL_UNSIGNED_INT, 0);// 使用ebo时，对应的使用glDrawElements.并且在使用的前后要进行VAO的绑定与解绑
 
-    glBindVertexArray(0);
+    vao->unBind();
 }

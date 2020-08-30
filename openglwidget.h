@@ -15,6 +15,9 @@
 #include <glad/glad.h>
 #include <QOpenGLWidget>
 #include "shader.h"
+#include "vertexbufferobject.h"
+#include "vertexarrayobject.h"
+#include "elementbufferobject.h"
 
 class OpenGLWidget :public QOpenGLWidget
 {
@@ -27,12 +30,10 @@ protected:
 	void resizeGL(int w, int h) override;
 	void paintGL() override;
 private:
-
+	VertexArrayObject* vao;
+	VertexBufferObject* vbo;
+	ElementBufferObject* ebo;
 	Shader *shader;
-public:
-	GLuint vertex_array_object;
-	GLuint vertex_buffer_object;
-	GLuint element_buffer_object;
 };
 
 #endif // !__OPENGLWIDGET_H__
